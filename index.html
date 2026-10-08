@@ -146,5 +146,15 @@ function createVideo() {
 }
 </script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Amber service worker registered"))
+      .catch(error => console.log("Service worker error:", error));
+  });
+}
+</script>
+
 </body>
 </html>
