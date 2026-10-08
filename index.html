@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angel Amber AI Studio</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #0b0d19;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+header {
+  padding: 22px;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+.logo {
+  color: #e6b85c;
+  font-size: 27px;
+  font-weight: bold;
+}
+main {
+  max-width: 650px;
+  margin: auto;
+  padding: 25px 18px;
+}
+h1 { text-align: center; }
+.subtitle {
+  color: #a9acc0;
+  text-align: center;
+}
+.panel {
+  background: #191d30;
+  padding: 22px;
+  border-radius: 18px;
+  margin-top: 30px;
+}
+textarea, select {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  background: #101425;
+  color: white;
+  border: 1px solid #42465c;
+  border-radius: 10px;
+  font-size: 16px;
+}
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+label {
+  display: block;
+  margin-top: 20px;
+}
+button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 17px;
+  background: #e6b85c;
+  color: #111;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#message {
+  margin-top: 18px;
+  color: #e6b85c;
+  text-align: center;
+}
+footer {
+  padding: 35px;
+  text-align: center;
+  color: #888;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">✦ ANGEL AMBER</div>
+  <small>AI VIDEO STUDIO</small>
+</header>
+
+<main>
+  <h1>Create Amazing AI Videos</h1>
+  <p class="subtitle">
+    Turn your ideas into cinematic videos.
+  </p>
+
+  <div class="panel">
+    <h2>✦ Create Your Video</h2>
+
+    <label for="prompt">Describe your video</label>
+    <textarea id="prompt"
+      placeholder="A man working in a busy office..."></textarea>
+
+    <label for="duration">Video duration</label>
+    <select id="duration">
+      <option>5 seconds</option>
+      <option>10 seconds</option>
+      <option>15 seconds</option>
+    </select>
+
+    <label for="style">Video style</label>
+    <select id="style">
+      <option>Cinematic</option>
+      <option>Realistic</option>
+      <option>Animation</option>
+      <option>3D Cartoon</option>
+    </select>
+
+    <button onclick="createVideo()">
+      ✨ Generate Video
+    </button>
+
+    <p id="message" role="status"></p>
+  </div>
+</main>
+
+<footer>
+  © 2026 Angel Amber AI Studio
+</footer>
+
+<script>
+function createVideo() {
+  const prompt = document.getElementById("prompt").value;
+  const message = document.getElementById("message");
+
+  if (!prompt.trim()) {
+    message.textContent = "Please describe your video first.";
+    return;
+  }
+
+  message.textContent =
+    "Your prompt is ready! AI generation will be connected soon.";
+}
+</script>
+
+</body>
+</html>
