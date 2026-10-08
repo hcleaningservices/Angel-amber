@@ -132,19 +132,39 @@ footer {
 </footer>
 
 <script>
-function createVideo() {
+
+async function createVideo() {
   const prompt = document.getElementById("prompt").value;
   const message = document.getElementById("message");
 
   if (!prompt.trim()) {
-    message.textContent = "Please describe your video first.";
+    message.textContent = "Please describe your video.";
     return;
   }
 
-  
-message.textContent = "Preparing your AI video... Please wait.";
+  message.textContent = "Connecting to Angel Amber AI...";
 
+  try {
+    const response = await fetch("/api/generate-video", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "API connection failed");
+    }
+
+    message.textContent = data.message || "API connected successfully!";
+  } catch (error) {
+    message.textContent = "Error: " + error.message;
+  }
 }
+
 </script>
 
 <script>
