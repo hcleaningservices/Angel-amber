@@ -1,6 +1,6 @@
 {
-  "name": "Angel Amber AI Studio",
-  "short_name": "Angel Amber",
+  "name": "Amber",
+"short_name": "Amber",
   "description": "Create amazing AI videos with Angel Amber",
   "start_url": "./",
   "scope": "./",
