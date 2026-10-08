@@ -1,0 +1,18 @@
+{
+  "name": "Angel Amber AI Studio",
+  "short_name": "Angel Amber",
+  "description": "Create amazing AI videos with Angel Amber",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0d19",
+  "theme_color": "#0b0d19",
+  "icons": [
+    {
+      "src": "./icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
