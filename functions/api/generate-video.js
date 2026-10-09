@@ -28,7 +28,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     const endpoint =
-      "https://vamo455-omni-videos-custom-auto-prompt-high-quality.hf.space/run/_submit_t2v";
+      "https://vamo455-omni-videos-custom-auto-prompt-high-quality.hf.space/gradio_api/run/_submit_t2v";
 
     const response = await fetch(endpoint, {
       method: "POST",
