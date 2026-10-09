@@ -37,16 +37,18 @@ export async function onRequestPost({ request, env }) {
         "Authorization": `Bearer ${env.HF_TOKEN}`
       },
       body: JSON.stringify({
-        scene_count: 1,
-        seconds_per_scene: 3,
-        resolution: 384,
-        aspect_ratio: "16:9",
-        base_prompt: prompt.trim(),
-        s1: prompt.trim(),
-        s2: "",
-        s3: "",
-        s4: ""
-      }),
+  data: [
+    1,
+    3,
+    384,
+    "16:9",
+    prompt.trim(),
+    prompt.trim(),
+    "",
+    "",
+    ""
+  ]
+}),
       signal: AbortSignal.timeout(25000)
     });
 
