@@ -133,7 +133,120 @@ footer {
 
 <script>
 
+
 async function createVideo() {
+  const prompt = document.getElementById("prompt").value.trim();
+  const message = document.getElementById("message");
+  const button = document.querySelector("button[onclick='createVideo()']");
+  const api = "https://angel-amber.pages.dev/api/generate-video";
+
+  if (!prompt) {
+    message.textContent = "Please describe your video.";
+    return;
+  }
+
+  button.disabled = true;
+  message.textContent = "Submitting your video request...";
+
+  // Remove any previous video
+  document.getElementById("amber-result")?.remove();
+
+  try {
+    const response = await fetch(api, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.eventId) {
+      throw new Error(data.error || "Could not start video generation");
+    }
+
+    message.textContent = "Your video is in the queue. Please wait...";
+
+    const eventId = encodeURIComponent(data.eventId);
+    let finished = false;
+
+    // Check the video status periodically
+    for (let attempt = 0; attempt < 40; attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 5000));
+
+      message.textContent =
+        "Generating your video... Checking progress (" +
+        (attempt + 1) + "/40)";
+
+      const statusResponse = await fetch(
+        api + "?eventId=" + eventId,
+        { cache: "no-store" }
+      );
+
+      const status = await statusResponse.json();
+
+      if (!statusResponse.ok) {
+        if (status.error === "Video is still processing") {
+          continue;
+        }
+        throw new Error(status.error || "Could not check video status");
+      }
+
+      if (!status.finished) {
+        continue;
+      }
+
+      if (!status.videoUrl) {
+        throw new Error(
+          status.message || "Video finished without a playable file"
+        );
+      }
+
+      finished = true;
+      message.textContent = "Your video is ready!";
+
+      const result = document.createElement("div");
+      result.id = "amber-result";
+      result.style.marginTop = "20px";
+      result.style.textAlign = "center";
+
+      const video = document.createElement("video");
+      video.controls = true;
+      video.playsInline = true;
+      video.src = status.videoUrl;
+      video.style.width = "100%";
+      video.style.borderRadius = "12px";
+
+      const download = document.createElement("a");
+      download.href = status.videoUrl;
+      download.target = "_blank";
+      download.rel = "noopener noreferrer";
+      download.textContent = "⬇ Download / Open Video";
+      download.style.display = "block";
+      download.style.marginTop = "15px";
+      download.style.color = "#e6b85c";
+      download.style.fontWeight = "bold";
+
+      result.appendChild(video);
+      result.appendChild(download);
+      message.after(result);
+
+      break;
+    }
+
+    if (!finished) {
+      message.textContent =
+        "The video is taking longer than expected. Please try again later.";
+    }
+
+  } catch (error) {
+    message.textContent = "Error: " + error.message;
+  } finally {
+    button.disabled = false;
+  }
+}
+
   const prompt = document.getElementById("prompt").value;
   const message = document.getElementById("message");
 
