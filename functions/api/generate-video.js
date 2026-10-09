@@ -64,7 +64,7 @@ export async function onRequestPost({ request, env }) {
 
     if (!response.ok) {
       return reply({
-        error: "Hugging Face rejected the request",
+        error: `Hugging Face error ${response.status}: ${JSON.stringify(result).slice(0, 250)}`,
         httpStatus: response.status,
         details: result
       }, 502);
