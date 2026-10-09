@@ -158,11 +158,10 @@ export async function onRequestGet({ request, env }) {
       }
 
       if (event === "error") {
-        return reply({
-          error: "Video generation failed",
-          details: dataLine.slice(0, 300)
-        }, 502);
-      }
+  return reply({
+    error: "Hugging Face error: " + dataLine.slice(0, 500)
+  }, 502);
+}
     }
 
     return reply({
