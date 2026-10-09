@@ -2,293 +2,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amber AI Studio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Amber AI Studio</title>
+
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="amber-logo.png">
-<link rel="apple-touch-icon" href="amber-192.png">
-<style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: #0b0d19;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-header {
-  padding: 22px;
-  text-align: center;
-  border-bottom: 1px solid #333;
-}
-.logo {
-  color: #e6b85c;
-  font-size: 27px;
-  font-weight: bold;
-}
-main {
-  max-width: 650px;
-  margin: auto;
-  padding: 25px 18px;
-}
-h1 { text-align: center; }
-.subtitle {
-  color: #a9acc0;
-  text-align: center;
-}
-.panel {
-  background: #191d30;
-  padding: 22px;
-  border-radius: 18px;
-  margin-top: 30px;
-}
-textarea, select {
-  width: 100%;
-  padding: 14px;
-  margin-top: 12px;
-  background: #101425;
-  color: white;
-  border: 1px solid #42465c;
-  border-radius: 10px;
-  font-size: 16px;
-}
-textarea {
-  min-height: 140px;
-  resize: vertical;
-}
-label {
-  display: block;
-  margin-top: 20px;
-}
-button {
-  width: 100%;
-  margin-top: 25px;
-  padding: 17px;
-  background: #e6b85c;
-  color: #111;
-  border: none;
-  border-radius: 12px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-}
-#message {
-  margin-top: 18px;
-  color: #e6b85c;
-  text-align: center;
-}
-footer {
-  padding: 35px;
-  text-align: center;
-  color: #888;
-}
-</style>
+  <link rel="apple-touch-icon" href="amber-192.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #0b0d19;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 22px;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      color: #e6b85c;
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    main {
+      max-width: 650px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .subtitle {
+      color: #a9acc0;
+      text-align: center;
+    }
+
+    .panel {
+      background: #191d30;
+      padding: 22px;
+      border-radius: 18px;
+      margin-top: 30px;
+    }
+
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      background: #101425;
+      color: white;
+      border: 1px solid #42465c;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 17px;
+      background: #e6b85c;
+      color: #111;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 18px;
+      color: #e6b85c;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    #amber-result {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #amber-result video {
+      width: 100%;
+      border-radius: 12px;
+      background: black;
+    }
+
+    #amber-result a {
+      display: block;
+      margin-top: 15px;
+      color: #e6b85c;
+      font-weight: bold;
+    }
+
+    footer {
+      padding: 35px;
+      text-align: center;
+      color: #888;
+    }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo"><img src="amber-logo.png" alt="Amber logo" style="width:60px;height:60px;object-fit:contain;vertical-align:middle;margin-right:10px;"> AMBER</div>
-  <small>AI VIDEO STUDIO</small>
-</header>
+  <header>
+    <div class="logo">
+      <img src="amber-logo.png" alt="Amber logo">
+      AMBER
+    </div>
+    <small>AI VIDEO STUDIO</small>
+  </header>
 
-<main>
-  <h1>Create Amazing AI Videos</h1>
-  <p class="subtitle">
-    Turn your ideas into cinematic videos.
-  </p>
+  <main>
+    <h1>Create Amazing AI Videos</h1>
 
-  <div class="panel">
-    <h2>✦ Create Your Video</h2>
+    <p class="subtitle">
+      Turn your ideas into cinematic videos.
+    </p>
 
-    <label for="prompt">Describe your video</label>
-    <textarea id="prompt"
-      placeholder="A man working in a busy office..."></textarea>
+    <div class="panel">
+      <h2>✦ Create Your Video</h2>
 
-    <label for="duration">Video duration</label>
-    <select id="duration">
-      <option>5 seconds</option>
-      <option>10 seconds</option>
-      <option>15 seconds</option>
-    </select>
+      <label for="prompt">Describe your video</label>
 
-    <label for="style">Video style</label>
-    <select id="style">
-      <option>Cinematic</option>
-      <option>Realistic</option>
-      <option>Animation</option>
-      <option>3D Cartoon</option>
-    </select>
+      <textarea
+        id="prompt"
+        placeholder="A man working in a busy office..."
+      ></textarea>
 
-    <button onclick="createVideo()">
-      ✨ Generate Video
-    </button>
+      <label for="duration">Video duration</label>
 
-    <p id="message" role="status"></p>
-  </div>
-</main>
+      <select id="duration">
+        <option>5 seconds</option>
+        <option>10 seconds</option>
+        <option>15 seconds</option>
+      </select>
 
-<footer>
-  © 2026 Angel Amber AI Studio
-</footer>
+      <label for="style">Video style</label>
 
-<script>
+      <select id="style">
+        <option>Cinematic</option>
+        <option>Realistic</option>
+        <option>Animation</option>
+        <option>3D Cartoon</option>
+      </select>
 
+      <button id="generateButton" onclick="createVideo()">
+        ✨ Generate Video
+      </button>
 
-async function createVideo() {
-  const prompt = document.getElementById("prompt").value.trim();
-  const message = document.getElementById("message");
-  const button = document.querySelector("button[onclick='createVideo()']");
-  const api = "https://angel-amber.pages.dev/api/generate-video";
+      <p id="message" role="status"></p>
 
-  if (!prompt) {
-    message.textContent = "Please describe your video.";
-    return;
-  }
+      <div id="amber-result"></div>
+    </div>
+  </main>
 
-  button.disabled = true;
-  message.textContent = "Submitting your video request...";
+  <footer>
+    © 2026 Angel Amber AI Studio
+  </footer>
 
-  // Remove any previous video
-  document.getElementById("amber-result")?.remove();
+  <script>
+    const API_URL =
+      "https://angel-amber.pages.dev/api/generate-video";
 
-  try {
-    const response = await fetch(api, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt })
-    });
+    const wait = (ms) =>
+      new Promise(resolve => setTimeout(resolve, ms));
 
-    const data = await response.json();
+    async function createVideo() {
+      const prompt =
+        document.getElementById("prompt").value.trim();
 
-    if (!response.ok || !data.eventId) {
-      throw new Error(data.error || "Could not start video generation");
-    }
+      const message =
+        document.getElementById("message");
 
-    message.textContent = "Your video is in the queue. Please wait...";
+      const button =
+        document.getElementById("generateButton");
 
-    const eventId = encodeURIComponent(data.eventId);
-    let finished = false;
+      const result =
+        document.getElementById("amber-result");
 
-    // Check the video status periodically
-    for (let attempt = 0; attempt < 40; attempt++) {
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      if (!prompt) {
+        message.textContent =
+          "Please describe your video.";
+        return;
+      }
+
+      button.disabled = true;
+      result.replaceChildren();
 
       message.textContent =
-        "Generating your video... Checking progress (" +
-        (attempt + 1) + "/40)";
+        "Submitting your video request...";
 
-      const statusResponse = await fetch(
-        api + "?eventId=" + eventId,
-        { cache: "no-store" }
-      );
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ prompt })
+        });
 
-      const status = await statusResponse.json();
+        const data = await response.json();
 
-      if (!statusResponse.ok) {
-        if (status.error === "Video is still processing") {
-          continue;
+        if (!response.ok || !data.eventId) {
+          throw new Error(
+            data.error || "Could not start video generation."
+          );
         }
-        throw new Error(status.error || "Could not check video status");
+
+        message.textContent =
+          "Your video is in the queue. Please wait...";
+
+        const eventId =
+          encodeURIComponent(data.eventId);
+
+        let finished = false;
+
+        for (let attempt = 0; attempt < 40; attempt++) {
+          await wait(5000);
+
+          message.textContent =
+            "Generating your video... Checking progress (" +
+            (attempt + 1) + "/40)";
+
+          const statusResponse = await fetch(
+            API_URL + "?eventId=" + eventId,
+            { cache: "no-store" }
+          );
+
+          const status = await statusResponse.json();
+
+          if (!statusResponse.ok) {
+            if (
+              status.error === "Video is still processing"
+            ) {
+              continue;
+            }
+
+            throw new Error(
+              status.error || "Could not check video status."
+            );
+          }
+
+          if (!status.finished) {
+            continue;
+          }
+
+          if (!status.videoUrl) {
+            throw new Error(
+              status.message ||
+              "Generation finished without a video."
+            );
+          }
+
+          finished = true;
+
+          message.textContent =
+            "Your video is ready!";
+
+          const video =
+            document.createElement("video");
+
+          video.controls = true;
+          video.playsInline = true;
+          video.src = status.videoUrl;
+
+          const download =
+            document.createElement("a");
+
+          download.href = status.videoUrl;
+          download.target = "_blank";
+          download.rel = "noopener noreferrer";
+          download.textContent =
+            "⬇ Download / Open Video";
+
+          result.appendChild(video);
+          result.appendChild(download);
+
+          break;
+        }
+
+        if (!finished) {
+          message.textContent =
+            "The video is taking longer than expected. " +
+            "Please try again later.";
+        }
+
+      } catch (error) {
+        message.textContent =
+          "Error: " + error.message;
+
+      } finally {
+        button.disabled = false;
       }
-
-      if (!status.finished) {
-        continue;
-      }
-
-      if (!status.videoUrl) {
-        throw new Error(
-          status.message || "Video finished without a playable file"
-        );
-      }
-
-      finished = true;
-      message.textContent = "Your video is ready!";
-
-      const result = document.createElement("div");
-      result.id = "amber-result";
-      result.style.marginTop = "20px";
-      result.style.textAlign = "center";
-
-      const video = document.createElement("video");
-      video.controls = true;
-      video.playsInline = true;
-      video.src = status.videoUrl;
-      video.style.width = "100%";
-      video.style.borderRadius = "12px";
-
-      const download = document.createElement("a");
-      download.href = status.videoUrl;
-      download.target = "_blank";
-      download.rel = "noopener noreferrer";
-      download.textContent = "⬇ Download / Open Video";
-      download.style.display = "block";
-      download.style.marginTop = "15px";
-      download.style.color = "#e6b85c";
-      download.style.fontWeight = "bold";
-
-      result.appendChild(video);
-      result.appendChild(download);
-      message.after(result);
-
-      break;
     }
+  </script>
 
-    if (!finished) {
-      message.textContent =
-        "The video is taking longer than expected. Please try again later.";
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./sw.js")
+          .then(() => {
+            console.log(
+              "Amber service worker registered"
+            );
+          })
+          .catch(error => {
+            console.log(
+              "Service worker error:",
+              error
+            );
+          });
+      });
     }
-
-  } catch (error) {
-    message.textContent = "Error: " + error.message;
-  } finally {
-    button.disabled = false;
-  }
-}
-
-  const prompt = document.getElementById("prompt").value;
-  const message = document.getElementById("message");
-
-  if (!prompt.trim()) {
-    message.textContent = "Please describe your video.";
-    return;
-  }
-
-  message.textContent = "Connecting to Angel Amber AI...";
-
-  try {
-    const response = await fetch("https://angel-amber.pages.dev/api/generate-video", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "API connection failed");
-    }
-
-    message.textContent = data.message || "API connected successfully!";
-  } catch (error) {
-    message.textContent = "Error: " + error.message;
-  }
-}
-
-</script>
-
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("Amber service worker registered"))
-      .catch(error => console.log("Service worker error:", error));
-  });
-}
-</script>
+  </script>
 
 </body>
 </html>
