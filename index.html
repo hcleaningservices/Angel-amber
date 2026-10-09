@@ -145,7 +145,7 @@ async function createVideo() {
   message.textContent = "Connecting to Angel Amber AI...";
 
   try {
-    const response = await fetch("/api/generate-video", {
+    const response = await fetch("https://angel-amber.pages.dev/api/generate-video", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
