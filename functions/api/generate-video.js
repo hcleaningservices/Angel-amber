@@ -1,3 +1,4 @@
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "https://hcleaningservices.github.io",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -12,36 +13,79 @@ export async function onRequestOptions() {
 }
 
 export async function onRequestPost({ request, env }) {
+  const reply = (data, status = 200) =>
+    Response.json(data, { status, headers: corsHeaders });
+
   try {
     if (!env.HF_TOKEN) {
-      return Response.json(
-        { error: "Hugging Face token missing" },
-        { status: 500, headers: corsHeaders }
-      );
+      return reply({ error: "Hugging Face token missing" }, 500);
     }
 
     const { prompt } = await request.json();
 
     if (typeof prompt !== "string" || !prompt.trim()) {
-      return Response.json(
-        { error: "Please describe your video" },
-        { status: 400, headers: corsHeaders }
-      );
+      return reply({ error: "Please describe your video" }, 400);
     }
 
-    return Response.json(
-      {
-        success: true,
-        message: "Amber API is connected successfully!",
-        prompt: prompt.trim()
+    const endpoint =
+      "https://vamo455-omni-videos-custom-auto-prompt-high-quality.hf.space/run/_submit_t2v";
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${env.HF_TOKEN}`
       },
-      { headers: corsHeaders }
-    );
+      body: JSON.stringify({
+        scene_count: 1,
+        seconds_per_scene: 3,
+        resolution: 384,
+        aspect_ratio: "16:9",
+        base_prompt: prompt.trim(),
+        s1: prompt.trim(),
+        s2: "",
+        s3: "",
+        s4: ""
+      }),
+      signal: AbortSignal.timeout(25000)
+    });
+
+    const raw = await response.text();
+    let result;
+
+    try {
+      result = JSON.parse(raw);
+    } catch {
+      return reply({
+        error: "Hugging Face returned a non-JSON response",
+        httpStatus: response.status
+      }, 502);
+    }
+
+    if (!response.ok) {
+      return reply({
+        error: "Hugging Face rejected the request",
+        httpStatus: response.status,
+        details: result
+      }, 502);
+    }
+
+    const videoUrl = result.output_1?.video?.url;
+
+    return reply({
+      success: Boolean(videoUrl),
+      message: videoUrl
+        ? "Video generated!"
+        : "Hugging Face responded, but no video URL was returned.",
+      videoUrl: videoUrl || null,
+      status: result.output || null
+    });
 
   } catch (error) {
-    return Response.json(
-      { error: "Request could not be processed" },
-      { status: 500, headers: corsHeaders }
-    );
+    return reply({
+      error: error.name === "TimeoutError"
+        ? "Video generation took too long."
+        : "Could not connect to the video generator."
+    }, 502);
   }
 }
